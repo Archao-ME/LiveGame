@@ -92,9 +92,9 @@ describe('Cell', () => {
             [0, 0, 1]
         ];
         const position1 = {x: 2, y: 1};
-        const cell1 = new Cell(position);
+        const cell1 = new Cell(position1);
 
-        const num1 = cell.getEnvCellNum(map);
+        const num1 = cell1.getEnvCellNum(map1);
 
         expect(num).toBe(2);
     });
@@ -113,7 +113,7 @@ describe('Cell', () => {
         expect(nextStatus).toBe(0);
     });
 
-    it('should return the cell live when env with 3 live cell', () => {
+    it('should return the cell dead when env with 3 live cell and itself is dead', () => {
         const map = [
             [0, 0, 1],
             [0, 0, 1],
@@ -121,6 +121,37 @@ describe('Cell', () => {
         ];
         const position = {x: 1, y: 1};
         const cell = new Cell(position);
+        cell.setStatus(0);
+
+        const nextStatus = cell.getNextStatus(map);
+
+        expect(nextStatus).toBe(1);
+    });
+
+    it('should return the cell live when env with 3 live cell and itself is living', () => {
+        const map = [
+            [0, 0, 1],
+            [0, 1, 1],
+            [0, 0, 1]
+        ];
+        const position = {x: 1, y: 1};
+        const cell = new Cell(position);
+        cell.setStatus(1);
+
+        const nextStatus = cell.getNextStatus(map);
+
+        expect(nextStatus).toBe(1);
+    });
+
+    it('should return the cell live when env with 2 live cell and itself is living', () => {
+        const map = [
+            [0, 0, 1],
+            [0, 1, 0],
+            [0, 0, 1]
+        ];
+        const position = {x: 1, y: 1};
+        const cell = new Cell(position);
+        cell.setStatus(1);
 
         const nextStatus = cell.getNextStatus(map);
 

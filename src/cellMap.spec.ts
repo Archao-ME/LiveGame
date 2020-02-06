@@ -77,19 +77,39 @@ describe('Map of cells', () => {
         expect(cellMap.getStatusMap()).toStrictEqual(resMock);
     });
 
-    it('should return next map of cell status', () => {
-        const cellMap = new CellMap(3, 3);
-        const map = cellMap.getMap();
-        map[1][1].setStatus(1);
+    describe('Actions of cell map', () => {
+        it('should return all dead status in next map of cell', () => {
+            const cellMap = new CellMap(3, 3);
+            const map = cellMap.getMap();
+            map[1][1].setStatus(1);
 
-        const nextMap = cellMap.getNextMap();
+            const nextMap = cellMap.getNextMap();
 
-        const resMock = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ]
-        expect(nextMap).toStrictEqual(resMock);
+            const resMock = [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+            ]
+            expect(nextMap).toStrictEqual(resMock);
+        });
+
+        it('should return some alive in next map of cell', () => {
+            const cellMap = new CellMap(3, 3);
+            const map = cellMap.getMap();
+            map[1][1].setStatus(1);
+            map[0][1].setStatus(1);
+            map[1][0].setStatus(1);
+
+            const nextMap = cellMap.getNextMap();
+
+            const resMock = [
+                [1, 1, 0],
+                [1, 1, 0],
+                [0, 0, 0]
+            ]
+            expect(nextMap).toStrictEqual(resMock);
+        });
+
     });
 
     function generateMapWithMockData() {
